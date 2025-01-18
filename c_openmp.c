@@ -84,7 +84,7 @@ int main(int argc, char* argv[]) {
 
         #pragma omp for reduction(+:local_sum)
         for (int i = 0; i < NUM_POINTS; i++) {
-            double x = a + (b - a) * sprng();  // Используем генератор для текущего потока
+            double x = a + (b - a) * sprng();
             local_sum += func(x);
         }
     }
