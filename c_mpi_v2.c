@@ -7,6 +7,7 @@
 #define SIMPLE_SPRNG
 #include "sprng_cpp.h"          /* SPRNG header file */
 
+#define SEED 985456376
 #define NUM_POINTS 1000000
 
 // Функция 1: f(x) = sin(x) * exp(-x)
@@ -88,7 +89,7 @@ int main(int argc, char* argv[]) {
 
     // Инициализация генератора случайных чисел SPRNG
     int stream_id = rank;  // Уникальный идентификатор потока для каждого процесса
-    init_sprng(rank + 985456376, SPRNG_DEFAULT, stream_id); // Инициализация с уникальным SEED для каждого потока
+    init_sprng(SEED, SPRNG_DEFAULT, stream_id); // Инициализация с уникальным SEED для каждого потока
 
     // Генерация случайных точек и вычисление интеграла методом Монте-Карло
     for (int i = 0; i < points_per_process; i++) {
