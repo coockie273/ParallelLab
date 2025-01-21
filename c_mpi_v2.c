@@ -88,8 +88,7 @@ int main(int argc, char* argv[]) {
     double local_sum = 0.0;
 
     // Инициализация генератора случайных чисел SPRNG
-    int stream_id = rank;  // Уникальный идентификатор потока для каждого процесса
-    init_sprng(SEED, SPRNG_DEFAULT, stream_id); // Инициализация с уникальным SEED для каждого потока
+    init_sprng(SEED, SPRNG_DEFAULT);
 
     // Генерация случайных точек и вычисление интеграла методом Монте-Карло
     for (int i = 0; i < points_per_process; i++) {

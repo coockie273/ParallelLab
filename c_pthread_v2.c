@@ -46,7 +46,6 @@ typedef struct {
     double b;
     double result;
     FunctionPointer function;
-    int stream_id;
 } threadData;
 
 void* monte_carlo(void* arg) {
@@ -54,7 +53,7 @@ void* monte_carlo(void* arg) {
     threadData* data = (threadData*)arg;
 
     double result = 0.0;
-    init_sprng(SEED, SPRNG_DEFAULT, data->stream_id);
+    init_sprng(SEED, SPRNG_DEFAULT);
 
     for (int i = 0; i < data->points_per_thread; i++) {
         double x = data->a + (data->b - data->a) * sprng();
@@ -107,9 +106,11 @@ int main(int argc, char* argv[]) {
         thread_data[i].b = b;
         thread_data[i].result = 0.0;
         thread_data[i].function = func;
-        thread_data[i].stream_id = i; // Идентификатор потока для генератора SPRNG
 
-        pthread_create(&threads[i], NULL, monte_carlo, (void*)&thread_data[i]);
+        if (pthread_create(&threads[i], NULL, monte_carlo, (void*)&thread_data[i]) != 0) {
+    	    printf("Ошибка создания потока\n");
+    	    return 1;
+        }
     }
 
     double total_result = 0.0;

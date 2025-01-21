@@ -10,7 +10,7 @@
 #define NUM_POINTS 1000000
 #define SEED 985456376
 
-#define NUM_THREADS 2
+#define NUM_THREADS 4
 
 // Функция 1: f(x) = sin(x) * exp(-x)
 double f1(double x) {
@@ -78,9 +78,7 @@ int main(int argc, char* argv[]) {
 
     #pragma omp parallel
     {
-        int thread_id = omp_get_thread_num();
-
-        init_sprng(SEED, SPRNG_DEFAULT, thread_id);
+        init_sprng(SEED, SPRNG_DEFAULT);
 
         #pragma omp for reduction(+:local_sum)
         for (int i = 0; i < NUM_POINTS; i++) {
